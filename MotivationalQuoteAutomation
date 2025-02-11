@@ -1,0 +1,83 @@
+/**
+ * Sends a daily motivational quote to the user's email.
+ */
+
+function sendDailyQuote() {
+  // 1. Get the user's email address.
+  var userEmail = Session.getActiveUser().getEmail();
+
+  // 2. Get a motivational quote.  You can use a few different methods:
+
+  // a) Array of Quotes (Simplest - good for a small set of quotes):
+  var quotes = [
+    "The only way to do great work is to love what you do. - Steve Jobs",
+    "Believe you can and you're halfway there. - Theodore Roosevelt",
+    "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+    "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+    "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt",
+    // Add more quotes here...
+    "It always seems impossible until it's done. - Nelson Mandela",
+    "Strive not to be a success, but rather to be of value. - Albert Einstein",
+    "The best way to predict the future is to create it. - Peter Drucker",
+    "Happiness is not something readymade. It comes from your own actions. - Dalai Lama",
+    "Whatever you are, be a good one. - Abraham Lincoln"
+  ];
+  var randomIndex = Math.floor(Math.random() * quotes.length);
+  var quote = quotes[randomIndex];
+
+  // b) Using a Quote API (More Dynamic - requires internet access):
+  /*
+  // Example using a free quote API (replace with your preferred API):
+  var apiUrl = "https://api.quotable.io/random"; // Example API - test it!
+  try {
+    var response = UrlFetchApp.fetch(apiUrl);
+    var data = JSON.parse(response.getContentText());
+    var quote = data.content + " - " + data.author;
+  } catch (error) {
+    Logger.log("Error fetching quote from API: " + error);
+    quote = "Quote could not be retrieved.  Check the API."; // Fallback message
+  }
+  */
+
+  // 3. Send the email.
+  var subject = "Daily Motivational Quote";
+  var body = "Here is your daily dose of motivation:\n\n" + quote;
+
+  MailApp.sendEmail({
+    to: userEmail,
+    subject: subject,
+    body: body
+  });
+
+  Logger.log("Quote sent to " + userEmail);
+}
+
+
+/**
+ * Sets up a time-driven trigger to run the sendDailyQuote function every day.
+ * This should be run ONCE to install the trigger.
+ */
+function createDailyTrigger() {
+  // Delete any existing triggers for this function to prevent duplicates.
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() == "sendDailyQuote") {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
+
+  // Create the new trigger.  Runs every day at a specific time (e.g., 8:00 AM).
+  ScriptApp.newTrigger("sendDailyQuote")
+    .timeBased()
+    .atHour(8) // Set the hour (0-23)
+    .everyDays(1)
+    .create();
+
+  Logger.log("Daily trigger created.");
+}
+
+
+// Optional: A function to test sending the quote immediately.
+function testSendQuote() {
+  sendDailyQuote();
+}
