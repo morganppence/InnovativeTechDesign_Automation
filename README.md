@@ -43,3 +43,51 @@ Working on this project provided valuable insights into AI-driven automation and
 - Debugging and Iteration – I encountered and resolved challenges related to parsing accuracy, formatting inconsistencies, and script execution limits.  
 
 This project reinforced the value of AI-driven automation in improving productivity and provided hands-on experience in integrating technology to solve real-world problems.  
+
+
+
+
+
+# A second automation I tried to work on: 
+
+An automation that sends a daily motivational quote to your email:
+
+# Explanations:
+
+User's Email: The script now gets the user's email address using Session.getActiveUser().getEmail(). This ensures the quote is sent to the correct person.
+Quote Sources:
+Array of Quotes: The code provides a simple array of motivational quotes. This is easy to use for a small number of quotes. Add as many quotes as you want to the quotes array.
+Quote API (Commented out): I've included an example of how to use a quote API. This is a better approach for a larger and more varied selection of quotes. You'll need to find a suitable quote API (many free ones are available) and replace the example API URL with the correct one. Be sure to uncomment this section if you want to use an API.
+Error Handling for API: The API example includes a try...catch block to handle potential errors when fetching quotes from the API. This prevents the script from crashing.
+Email Sending: The MailApp.sendEmail() function is used to send the email with the quote.
+Time-Driven Trigger:
+The createDailyTrigger() function sets up a time-driven trigger. This is essential for sending the quote automatically every day. You only need to run this function once to create the trigger.
+The trigger is set to run every day at 8:00 AM (you can change the hour).
+Crucially: The createDailyTrigger() function now deletes any existing triggers for the sendDailyQuote function before creating a new one. This prevents duplicate triggers from being created if you run createDailyTrigger() multiple times, which would result in multiple emails being sent.
+Test Function: The testSendQuote() function allows you to test sending the quote immediately without waiting for the daily trigger. This is very useful for development and debugging.
+Clearer Comments: More comments have been added to explain the code.
+
+
+# How to Use:
+
+Open Apps Script: Go to script.google.com or open a Google Sheet and go to "Tools" > "Script editor".
+
+Copy and Paste: Copy and paste the code into the script editor.
+
+Choose Quote Source: Decide whether you want to use the array of quotes or a quote API. If using an API, uncomment the API code and replace the example URL with the correct one.
+Save the Script: Save the script (File > Save). Give it a name (e.g., "DailyQuoteSender").
+
+Run createDailyTrigger(): This is the most important step. Run the createDailyTrigger() function once. Authorize the script when prompted. This will set up the daily trigger.
+(Optional) Test: Run the testSendQuote() function to test if the email is being sent correctly.
+
+Check Your Email: Check your email at the scheduled time (e.g., 8:00 AM) to see if you receive the daily quote.
+Important:
+
+
+Authorization: When you run createDailyTrigger() for the first time, you'll need to authorize the script to access your email and set up triggers.
+
+Triggers: You only need to run createDailyTrigger() once. After that, the trigger will run automatically every day. If you run createDailyTrigger() again, it will delete the existing trigger and create a new one, but this is usually unnecessary.
+
+Quote API: If you use a quote API, make sure it's reliable and has a good selection of quotes. Test the API URL in your browser first to make sure it's working.
+
+
